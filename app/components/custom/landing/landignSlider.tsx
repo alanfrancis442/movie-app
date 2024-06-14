@@ -1,6 +1,6 @@
 "use client";
 import React, { useRef, useState,useEffect } from 'react';
-import Get_movies from '@/app/api_call';
+import {Get_movies,get_trendign_movies} from '@/app/api_call';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay,Pagination, Navigation  } from 'swiper/modules';
 import 'swiper/css';
@@ -14,19 +14,20 @@ interface Movie {
 //https://m.media-amazon.com/images/M/MV5BM2ZiY2IxZjgtNGVlMi00ZTQ5LTk4N2EtZDgwNDdkNjU0MWZhXkEyXkFqcGdeQXVyMTEzOTI1NTc1._V1_SX300.jpg
 
 function LandingSlider() {
-    const [movies, setmovies] = useState<Movie[]>([])
+    const [movies, setmovies] = useState([])
 
-    const get_movie_list = async () => {
-        let movies_list = await Get_movies("anime");
-        // setmovies(movies_list);
-        console.log(movies_list);
-    
-    }
+    const get_ternding = async () => {
+      let movies_list = await get_trendign_movies();
+      console.log('slide',movies_list.slice(0,5));
+      // console.log('slide',movies_list.slice(0,5)[0].backdrop_path);
+      setmovies(movies_list.slice(0,5));
+  }
 
     useEffect(() => {
-        get_movie_list();
+        // get_ternding();
     }, [])
 
+    const image_url = 'https://image.tmdb.org/t/p/original'
 
     return ( 
         <>
@@ -35,30 +36,39 @@ function LandingSlider() {
         spaceBetween={30}
         loop={true}
         autoplay={{
-          delay: 2500,
+          delay: 5000,
           disableOnInteraction: false
         }}
         navigation={false}
         modules={[Autoplay, Pagination, Navigation]}
-        className="mySwiper bg-red-500 h-screen w-full"
+        className="mySwiper bg-red-500 h-[80vh] w-full"
       >
-        <SwiperSlide className=''>Slide 1</SwiperSlide>
-        <SwiperSlide>Slide 2</SwiperSlide>
-        <SwiperSlide>Slide 3</SwiperSlide>
-        <SwiperSlide>Slide 4</SwiperSlide>
-        <SwiperSlide>Slide 5</SwiperSlide>
-        <SwiperSlide>Slide 6</SwiperSlide>
-        <SwiperSlide>Slide 7</SwiperSlide>
-        <SwiperSlide>Slide 8</SwiperSlide>
-        <SwiperSlide>Slide 9</SwiperSlide>
-        {
-          movies.length>0 && (
-            <SwiperSlide className='flex justify-center items-center h-full w-full'>
-                {/* <img src={movies[0].Poster} alt='1' className='' /> */}
-            </SwiperSlide>
-
-          )
-        }
+          {/* {
+             movies.map((e,i)=>{
+              console.log(e.backdrop_path);
+              return (
+                <SwiperSlide key={i} className='py-16 bg-blue-200'>
+                  <img
+                  className='w-full h-full object-cover object-center'
+                  src={`${image_url}/${e.backdrop_path}`} alt='1' />
+                </SwiperSlide>
+              )
+            
+            })
+          } */}
+          {
+            Array(5).fill(0).map((e,i)=>{
+              return (
+                <SwiperSlide key={i} className='bg-blue-200'>
+                  <img 
+                  className='w-full h-full object-cover object-center'
+                  src={`https://image.tmdb.org/t/p/original/qjoX7hl721FOiyeHsDkeQ6rFVLl.jpg`} alt='1' />
+                  <p>hi</p>
+                </SwiperSlide>
+              )
+            
+            })
+          }
       </Swiper>
         </>
      );

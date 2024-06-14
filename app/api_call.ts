@@ -1,4 +1,8 @@
 import axios from 'axios';
+import { headers } from 'next/headers';
+
+const api_key = process.env.NEXT_PUBLIC_TMDB_MOVIE_API_KEY;
+const base_url = "https://api.themoviedb.org/3"
 
 const Get_movies = async (name:string) => {
 
@@ -6,7 +10,7 @@ const Get_movies = async (name:string) => {
 
     try{
         let response = await axios.get(`http://www.omdbapi.com/?apikey=${process.env.NEXT_PUBLIC_MOVIE_API_KEY}&s=${name}`)
-        movies = await response.data.Search;
+        movies = await response.data;
     }
     catch(err){
         console.log(err);
@@ -14,4 +18,45 @@ const Get_movies = async (name:string) => {
     return movies;
 }
 
-export default Get_movies;
+const get_trendign_movies = async () => {
+    let movies = [];
+    try{
+        let response = await axios.get(`${base_url}/trending/movie/day?language=en-US`,{
+            headers:{
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_MOVIE_API_AUTH}`,
+                accept: 'application/json'
+            }
+        })
+        // console.log("trending",response.data.results);
+        movies = await response.data.results;
+    }
+    catch(err){
+        console.log(err);
+    }
+
+    return movies;
+
+}
+
+
+//https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1
+const search_movie = async(name:string) => {
+    let movies = [];
+    try{
+        let response = await axios.get(`${base_url}/search/movie?query=${name}include_adult=false&language=en-US&page=1`,{
+            headers:{
+                Authorization: `Bearer ${process.env.NEXT_PUBLIC_TMDB_MOVIE_API_AUTH}`,
+                accept: 'application/json'
+            }
+        }
+        )
+        movies = await response.data;
+    }
+    catch(err){
+        console.log(err);
+    }
+    return movies;
+}
+
+// export default Get_movies;
+export {get_trendign_movies,Get_movies,search_movie}
