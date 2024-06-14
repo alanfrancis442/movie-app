@@ -8,18 +8,13 @@ import Footer from "./components/custom/footer/page";
 
 export default function Home() {
   return (
-    <div className="relative">
-      <div className="absolute w-full">
+    <div className="relative bg-[#000000]">
         <Nav />
-      </div>
-      <div className="relative">
         <LandingSlider />
-        <div className='text-white absolute z-10 bottom-0 h-[15vh] w-full
-         bg-gradient-to-t from-[rgba(59,59,59,0.5)] top-[rgba(0,0,0,0.1)]'></div>
-      </div>
       <Slider title={'trending'} name={"Trending Movies"} />
-      <Slider title={'trending'} name={"marvel's"} />
-      <Slider title={'trending'} name={"marvel's"} />
+      <Slider title={'ttvshows'} name={"Trending TV Shows"} />
+      <Slider title={'t_rated'} name={"Top Rated"} />
+      <Slider title={'air_tday'} name={"Airing Today"} />
       <Footer />
     </div>
   );

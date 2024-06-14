@@ -14,7 +14,7 @@ function Nav() {
   };
 
   return (
-    <nav className="flex items-center justify-between bg-[rgba(0,0,0,0.2)] backdrop-blur-md py-6 px-8 sticky top- w-full z-10">
+    <nav className="flex items-center justify-between bg-[rgba(0,0,0,0.2)] backdrop-blur-md py-6 px-8 sticky top-0 w-full z-10">
       <div className="text-white text-2xl">Movie Mania</div>
       <ul className="flex space-x-4">
         <li>
